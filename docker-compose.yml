@@ -1,0 +1,37 @@
+# This composer file is for hybrid dev: PHP on the host; rest of the services in docker
+# you need additionally
+#  docker run -d     -v /var/run/docker.sock:/tmp/docker.sock     -v /etc/hosts:/tmp/hosts     --name docker-hoster     dvdarias/docker-hoster
+# see https://tracker.imi.de/projects/imi-d/wiki/Docker_Runner_Standard_Maschine#Docker-Hoster-f%C3%BCr-Hybrid-Setup
+
+version: '3'
+services:
+  sql103:
+    image: mariadb:10.3.20
+    restart: unless-stopped
+    volumes:
+      - ./:/mnt/
+    ports:
+      - 33306:3306
+    environment:
+      - MYSQL_ROOT_HOST=%
+      - MYSQL_ALLOW_EMPTY_PASSWORD=true
+  sql102:
+    image: mariadb:10.2.29
+    restart: unless-stopped
+    volumes:
+      - ./:/mnt/
+    ports:
+      - 23306:3306
+    environment:
+      - MYSQL_ROOT_HOST=%
+      - MYSQL_ALLOW_EMPTY_PASSWORD=true
+  sql104:
+    image: mariadb:10.4.10
+    restart: unless-stopped
+    volumes:
+      - ./:/mnt/
+    ports:
+      - 43306:3306
+    environment:
+      - MYSQL_ROOT_HOST=%
+      - MYSQL_ALLOW_EMPTY_PASSWORD=true
